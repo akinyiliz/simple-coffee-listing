@@ -1,3 +1,31 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+/* Tailwind Base, Components, and Utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global Styles */
+body{
+  font-family: "DM Sans", sans-serif;
+  @apply bg-[#111315] w-full text-[#FEF7EE] text-[16px];
+  height: 2150px;
+}
+
+@media (min-width: 768px) {
+  body {
+    height: 1400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    height: 1150px;
+  }
+}
+
+/* Custom Styles */
+.bg-cafe-image{
+  background-image: url(./assets/bg-cafe.jpg);
+}
