@@ -5,8 +5,9 @@ import { Coffee } from "../types/Coffee";
 import Vector from "../assets/vector.svg";
 
 function Main() {
-  const [results, setResults] = useState<Coffee[]>([]);
-  const [buttonClicked, setButtonClicked] = useState(true);
+  const [coffees, setCoffees] = useState<Coffee[]>([]);
+  const [showAllProducts, setShowAllProducts] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCoffees = async () => {
@@ -15,18 +16,30 @@ function Main() {
           "https://raw.githubusercontent.com/devchallenges-io/web-project-ideas/main/front-end-projects/data/simple-coffee-listing-data.json"
         );
 
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+
         const data = await response.json();
 
-        setResults(data);
-      } catch (error) {
-        console.log(error);
+        setCoffees(data);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message);
+        }
       }
     };
 
     fetchCoffees();
   }, []);
 
-  const availableResults = results.filter((result) => result.available);
+  const toggleProducts = () => {
+    setShowAllProducts((prev) => !prev);
+  };
+
+  const filteredCoffees = showAllProducts
+    ? coffees
+    : coffees.filter((coffee) => coffee.available);
 
   return (
     <div className="bg-[#1B1D1F] flex flex-col items-center gap-10 rounded-xl">
@@ -46,20 +59,20 @@ function Main() {
           </p>
           <div className="flex items-center gap-5 font-semibold">
             <button
-              onClick={() => setButtonClicked((prev) => !prev)}
+              onClick={toggleProducts}
               type="button"
               className={`py-2 px-3 text-[14px] ${
-                buttonClicked && "bg-[#6F757C] rounded-lg"
-              }`}
+                showAllProducts ? "bg-[#6F757C]" : ""
+              } rounded-lg`}
             >
               All Products
             </button>
             <button
-              onClick={() => setButtonClicked((prev) => !prev)}
+              onClick={toggleProducts}
               type="button"
               className={`py-2 px-3 text-[14px] ${
-                !buttonClicked && "bg-[#6F757C] rounded-lg"
-              }`}
+                !showAllProducts ? "bg-[#6F757C]" : ""
+              } rounded-lg`}
             >
               Available Now
             </button>
@@ -68,11 +81,13 @@ function Main() {
       </div>
 
       <div className="relative mt-20 mb-12">
-        {buttonClicked ? (
-          <Products products={results} />
-        ) : (
-          <Products products={availableResults} />
+        {error && (
+          <p className="text-[#6F757C] font-semibold">
+            Sorry😞. No Coffees found, come back later.
+          </p>
         )}
+
+        <Products products={filteredCoffees} />
       </div>
     </div>
   );
