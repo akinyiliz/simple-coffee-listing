@@ -5,7 +5,6 @@ import { Coffee } from "../types/Coffee";
 import RatingStar from "../assets/Star_fill.svg";
 
 const CoffeeCard: FC<Coffee> = ({
-  id,
   name,
   image,
   available,
@@ -15,9 +14,9 @@ const CoffeeCard: FC<Coffee> = ({
   votes,
 }) => {
   return (
-    <div key={id} className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3">
       <div className="relative">
-        <img src={image} alt={name} className="rounded-2xl" />
+        <img src={image} alt={`Image of ${name}`} className="rounded-2xl" />
         {popular && (
           <small className="absolute top-2 left-2 bg-[#F6C768] py-1 px-3 text-[10px] text-black font-bold rounded-xl">
             Popular
@@ -37,7 +36,7 @@ const CoffeeCard: FC<Coffee> = ({
         <div className="flex flex-row items-center justify-between">
           {rating ? (
             <div className="flex flex-row items-center">
-              <img src={RatingStar} alt="Yellow Star Rating" />
+              <img src={RatingStar} alt="Filled Star for Rating" />
               <p className="text-[14px] font-semibold">
                 {rating}{" "}
                 <span className="text-[#6F757C] text-[14px]">
@@ -47,7 +46,7 @@ const CoffeeCard: FC<Coffee> = ({
             </div>
           ) : (
             <div className="flex flex-row items-center">
-              <img src={Star} alt="Star Rating" />
+              <img src={Star} alt="Empty Star for No Rating" />
               <p className="text-[#6F757C] text-[14px] font-semibold">
                 No ratings
               </p>
