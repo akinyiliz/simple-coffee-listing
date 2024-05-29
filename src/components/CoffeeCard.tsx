@@ -16,7 +16,7 @@ const CoffeeCard: FC<Coffee> = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="relative">
-        <img src={image} alt={`Image of ${name}`} className="rounded-2xl" />
+        <img src={image} alt={`Image of ${name}`} className="rounded-2xl" loading="lazy" />
         {popular && (
           <small className="absolute top-2 left-2 bg-[#F6C768] py-1 px-3 text-[10px] text-black font-bold rounded-xl">
             Popular
